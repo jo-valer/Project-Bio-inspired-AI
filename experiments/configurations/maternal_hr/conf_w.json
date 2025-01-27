@@ -1,0 +1,27 @@
+{
+    "num_seeds": 10,
+    "neuron_types": [
+        "andneuron_prod-probsum",
+        "orneuron_probsum-prod"
+    ],
+    "num_mfs_options": [
+        2
+    ],
+    "update_genes": [
+        "neuron_weights"
+    ],
+    "activation": "linear",
+    "optimizer": "moore-penrose",
+    "data_encoding":"one-hot-encoding",
+    "pred_method": "argmax",
+    "fitness_function": "accuracy",
+    "mutation_rate": [0.1, 0.2], 
+    "mutation_individual_rate": [0.3, 0.7], 
+    "crossover_rate": [0.3, 0.7], 
+    "max_generations": [50],
+    "max_patience": [20],
+    "mu": [50],
+    "lambda_": [70],
+    "selection_strategies": ["plus"],
+    "path_to_results": "maternal_hr/change_w/"
+} 

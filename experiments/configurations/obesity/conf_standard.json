@@ -1,0 +1,14 @@
+{
+  "num_seeds": 8,
+  "neuron_types": [
+    "andneuron_prod-probsum",
+    "orneuron_probsum-prod"
+  ],
+  "num_mfs_options": [
+    2
+  ],
+  "activation": "linear",
+  "optimizer": "moore-penrose",
+  "data_encoding":"one-hot-encoding",
+  "pred_method": "argmax"
+}
