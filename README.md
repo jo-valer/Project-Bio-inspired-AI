@@ -1,5 +1,63 @@
 # Project-Bio-inspired-AI
 Repo of our group project for the course of Bio-inspired Artificial Intelligence on _Evolutionary-Neuro-Fuzzy System for Medical Diagnosis_
+## Project structure
+```
+Project-Bio-Inspired-AI
+├── data
+│   ├── datasets
+│   │   ├── sepsis
+│   │   │   ├── sepsis_survival_primary_cohort.csv
+│   │   │   ├── sepsis_survival_study_cohort.csv
+│   │   │   └── sepsis_survival_validation_cohort.csv
+│   │   ├── diabetes.csv
+│   │   ├── maternal_health_risk.csv
+│   │   └──  obesity.csv
+│   └── data.py
+├── experiments
+│   ├── configurations
+│   │   ├── diabetes
+│   │   │   ├── conf_V.json
+│   │   │   ├── conf_standard.json
+│   │   │   └── conf_w.json
+│   │   ├── maternal_hr
+│   │   │   ├── conf-00-fast.json
+│   │   │   ├── conf_V.json
+│   │   │   ├── conf_standard.json
+│   │   │   └── conf_w.json
+│   │   ├── obesity
+│   │   │   ├── conf_V.json
+│   │   │   ├── conf_standard.json
+│   │   │   └── conf_w.json
+│   │   └── sepsis
+│   │   │   ├── conf-01-V.json
+│   │   │   ├── conf-01-weights.json
+│   │   │   └── conf-01.json
+│   │   ├── conf_general_V.json
+│   │   ├── conf_general_weights.json
+│   │   └──  configurations.py
+│   ├── results
+│   │   ├── tables
+│   │   │   ├── summary_results_diabetes.csv
+│   │   │   ├── summary_results_maternal.csv
+│   │   │   ├── summary_results_sepsis.csv
+│   │   │   └── table_confrontation.py
+│   │   ├── no_evo_diabete.css
+│   │   ├── no_evo_maternal.csv
+│   │   ├── res_w_diabetes.csv
+│   │   ├── res_w_maternal.csv
+│   │   ├── res_w_sepsis.csv
+│   │   ├── show_results.ipynb
+│   │   ├── show_results_diabets.ipynb
+│   │   └── show_results_maternal.ipynb
+│   ├── calculate.py
+│   ├── evolution.py
+│   ├── plots.py
+│   └── utils.py
+├── models
+├── env2.yml
+├── environment.yml
+└── README.md
+```
 
 ## Running the Code
 
