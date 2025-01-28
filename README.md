@@ -46,9 +46,9 @@ Project-Bio-Inspired-AI
 │   │   ├── res_w_diabetes.csv
 │   │   ├── res_w_maternal.csv
 │   │   ├── res_w_sepsis.csv
-│   │   ├── show_results.ipynb
 │   │   ├── show_results_diabets.ipynb
-│   │   └── show_results_maternal.ipynb
+│   │   ├── show_results_maternal.ipynb
+│   │   └── show_results_sepsis.ipynb
 │   ├── calculate.py
 │   ├── evolution.py
 │   ├── plots.py
