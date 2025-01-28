@@ -108,13 +108,10 @@ class FNNModel:
     
     def mutate(self, mutation_rate=0.1):
         """
-        Mutate the individual (V) by adding random noise to the weights.
+        Mutate the individual by adding random noise to the weights.
 
         Parameters:
             - mutation_rate (float): Mutation rate, which determines the amount of noise to add to the weights.
-
-        Returns:
-            None
         """
         random_number = self.rng_seed.uniform()
         if random_number < self.mutation_ind_rate:
@@ -130,14 +127,6 @@ class FNNModel:
                 #The weights should be between 0 and 1:
                 self.neuron_weights[self.neuron_weights < 0] = 0
                 self.neuron_weights[self.neuron_weights > 1] = 1
-
-                """elif self.update_gene == "mf_params":
-                    for feature_index in range(len(self.mf_params)):
-                        for mf_index in range(self.num_mfs):
-                            self.mf_params[feature_index]["centers"][mf_index] += self.rng_seed.normal(0, mutation_rate)
-                            self.mf_params[feature_index]["sigmas"][mf_index] += self.rng_seed.normal(0, mutation_rate)
-                            if self.mf_params[feature_index]["sigmas"][mf_index] < 0:
-                                self.mf_params[feature_index]["sigmas"][mf_index] = 0.1"""
 
             else:
                 raise ValueError("Invalid update_gene method")
