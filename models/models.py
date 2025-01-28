@@ -101,7 +101,6 @@ class FNNModel:
     
     def generate_parameters(self, x_train, y_train):
         if self.update_gene != "V":
-            #fuzzy_outputs = self.fuzzification_layer(x_train)
             logic_outputs = self.logic_neurons_layer(copy.deepcopy(self.fuzzy_outputs))
             self.V = np.dot(pinv(logic_outputs), y_train)
         
@@ -309,7 +308,7 @@ class FNNModel:
             self.VR = np.array((last_layer_weights.flatten()))
             self.V = last_layer_weights.flatten()
 
-    # TODO: up to now neural network layer is not used
+    #up to now neural network layer is not used
     def neural_network_layer(self, x, y):
         self.model = Sequential(
             [
@@ -370,7 +369,7 @@ class FNNModel:
         if self.optimizer == "moore-penrose":
             output_v = np.dot(logic_outputs_test, self.V)
 
-            # TODO: no-encoding + sign was related to the previous version (we may consider to remove it),
+            # no-encoding + sign was related to the previous version (we may consider to remove it),
             # the 'official' and current version is  the ones with one hot encoding + argmax
             if data_encoding == "no-encoding" and pred_method== "sign":
                 y_pred = np.sign(output_v)
@@ -482,122 +481,3 @@ class FNNModel:
             rules.append(rule)
 
         return rules
-
-    # TO ME, THE FOLLOWING FUNCTION SEEMS THE SAME OF PREVIOUS ONE...
-    # IF YOU HAVE TO USE IT DECOMMENT IT AND ADD DOCUMENTATION
-
-    # def generate_fuzzy_rules_with_impact(self):
-    #     rules_with_impact = []
-    #
-    #     # For each neuron in the logic layer
-    #     for neuron_index in range(self.total_fuzzy_neurons):
-    #         # Obtains the specific combination of MFs for the current neuron index
-    #         mf_combination = np.unravel_index(
-    #             neuron_index, [self.num_mfs] * len(self.mf_params)
-    #         )
-    #         rule_with_impact = "IF "
-    #
-    #         # For each feature, add the corresponding MF to the rule with its weight (impact)
-    #         for feature_index, mf_index in enumerate(mf_combination):
-    #             weight = self.neuron_weights[
-    #                 neuron_index, feature_index
-    #             ]  # Access the specific weight
-    #             rule_with_impact += (
-    #                 f"x{feature_index+1} is MF{mf_index+1} with impact {weight:.2f} "
-    #             )
-    #             if feature_index < len(mf_combination) - 1:
-    #                 rule_with_impact += (
-    #                     "AND " if self.neuron_type == "andneuron" else "OR "
-    #                 )
-    #
-    #             # Adds the rule's result (output)
-    #         rule_with_impact += f"THEN output is {self.V[neuron_index]}"
-    #
-    #     # Adds the complete rule to the list of rules
-    #     rules_with_impact.append(rule_with_impact)
-    #
-    #     return rules_with_impact
-
-    # IF YOU HAVE TO USE IT DECOMMENT IT AND ADD DOCUMENTATION, STILL HAVE SOME DOUBTS ON IT
-
-    # def visualize_3d_logic_neuron_output(self, X1_range, X2_range, resolution=100):
-    #     """
-    #     Visualize 3D projection of a logical neuron output.
-    #
-    #     Parameters:
-    #     - X1_range: Tuple (min, max) for the first input feature range.
-    #     - X2_range: Tuple (min, max) for the second input feature range.
-    #     - resolution: Number of points per dimension in the grid.
-    #     """
-    #     # Generate a grid of points within the specified ranges
-    #     x1 = np.linspace(X1_range[0], X1_range[1], resolution)
-    #     x2 = np.linspace(X2_range[0], X2_range[1], resolution)
-    #     X1, X2 = np.meshgrid(x1, x2)
-    #
-    #     # Flatten the grid to pass through the fuzzification layer
-    #     grid_flat = np.c_[X1.ravel(), X2.ravel()]
-    #
-    #     # Fuzzify the grid points
-    #     fuzzy_outputs = self.fuzzification_layer(grid_flat)
-    #
-    #     # Compute the logical outputs
-    #     self.logic_neurons_layer()
-    #
-    #     # Assuming self.logic_output now contains the outputs for the grid, reshape it back to the grid shape
-    #     Z = self.logic_output.reshape(X1.shape)
-    #
-    #     # Create a 3D plot
-    #     fig = plt.figure()
-    #     ax = fig.add_subplot(111, projection="3d")
-    #
-    #     # Plot the surface
-    #     surf = ax.plot_surface(X1, X2, Z, cmap="viridis", edgecolor="none")
-    #     fig.colorbar(surf, shrink=0.5, aspect=5)  # Add a color bar to indicate the values
-    #
-    #     ax.set_xlabel("Input Feature 1")
-    #     ax.set_ylabel("Input Feature 2")
-    #     ax.set_zlabel("Logical Neuron Output")
-    #     ax.set_title("3D Projection of Logical Neuron Output")
-    #
-    #     plt.show()
-
-    # TODO: old part related to LTN integratin, probably we can remove it
-    def generate_fuzzy_axioms(self):
-        """
-        Generate logical axioms from fuzzy rules, including the output weights,
-        adjusted for the correct number of dimensions with specific formatting.
-
-        Returns:
-        None
-        """
-
-        self.axioms.clear()  # Clear existing axioms list
-
-        # For each logic neuron's combination
-        for neuron_index, v in enumerate(self.V):
-            mf_combination = np.unravel_index(
-                neuron_index, [self.num_mfs] * len(self.mf_params)
-            )
-
-            rule_parts = []  # To store individual parts of the rule
-
-            for feature_index, mf_index in enumerate(mf_combination):
-                center = self.mf_params[feature_index]["centers"][mf_index]
-                sigma = self.mf_params[feature_index]["sigmas"][mf_index]
-
-                # Generate interval around the center using sigma
-                interval_start = round(center - sigma, 2)
-                interval_end = round(center + sigma, 2)
-
-                # Add rule part for the current feature with interval formatting
-                rule_parts.append(
-                    f"x{feature_index+1} is around [{interval_start} - {interval_end}] with sigma {sigma:.2f}"
-                )
-
-            # Join rule parts with "AND" or "OR" depending on neuron type
-            conjunction = " AND " if self.neuron_type == "andneuron" else " OR "
-            rule_body = conjunction.join(rule_parts)
-
-            # Format complete axiom with output rounded to two decimal places
-            axiom = f"IF {rule_body}, THEN output is [{np.round(v, 2)}]."
-            self.axioms.append(axiom)
