@@ -7,21 +7,15 @@ from tqdm.auto import tqdm
 
 from data.data import get_data
 from experiments.configurations.configurations import get_configuration
-from experiments.evaluation import evaluate_interpretability
-from experiments.calculate import calculate_avg_results
-from experiments.utils import save_list_in_a_file
 from experiments.plots import plot_class_confusion_matrix
 from models.models import FNNModel
 from models.selection import selection
 import copy
-import pandas as pd 
-import seaborn as sns
+import pandas as pd
 import time
 from sklearn.model_selection import train_test_split
 from collections import Counter
-from typing import List # Add at top of file
-
-#(mu, num_mfs, update_gene, current_neuron_type, fuzzy_interpretation, activation, optimizer, x_train, mutation_ind_rate, rng_seed)
+from typing import List
 
 def initialize_population(pop_size, num_mfs, update_gene, neuron_type, fuzzy_interpretation, activation, optimizer, x_train, y_train, mutation_ind_rate, data_encoding, rng_seed):
     population = []
@@ -43,7 +37,7 @@ def get_population_performance(fitness_population):
     return mean_fitness, std_fitness, max_fitness, min_fitness
 
 
-def get_train_eval_split(data, percentage_train=0.8): #Potremmo usare sklearn.model_selection.train_test_split; ma dobbiamo aggiungere la libreria
+def get_train_eval_split(data, percentage_train=0.8):
     x_data, y_data = data[0], data[1]
     x_train, x_eval, y_train, y_eval = train_test_split(x_data, y_data, train_size=percentage_train, random_state=0, stratify=y_data)
     
@@ -112,23 +106,12 @@ def run_experiment(
 
     current_neuron_type, fuzzy_interpretation = neuron_type.split("_")
 
-    exp_str = f"/exp-seed_{i_seed}_neurontype_{current_neuron_type}_interp_{fuzzy_interpretation}_nummfs_{num_mfs}_activation_{activation}/"
     cm_name = f"seed_{i_seed}_neurontype_{neuron_type}_nummfs_{num_mfs}_mutrate_{mutation_rate}_mutindrate_{mutation_ind_rate}_crossrate_{crossover_rate}_maxgen_{max_gen}_maxpat_{max_patience}_mu_{mu}_lambda_{lambda_}_selstr_{selection_strategy}"
     """ if not os.path.exists(path_to_exp_results):
         os.makedirs(path_to_exp_results, exist_ok=True) """
 
-    #x_train, y_train = train_data[0], train_data[1]
     x_test, y_test = test_data[0], test_data[1]
 
-    #Population
-    # max_generations = 50
-    # #mutation_rate = 0.1 #Probabilità di mutazione di un gene
-
-    # mu = 10 # = pop_size
-    # lambda_ = 20 #Numero di figli generati ad ogni iterazione (da cui si prendono #mu individui per la successiva generazione)
-    # selection_strategy = "plus" #otherwise "comma"
-    # mutation_ind_rate = 0.5 #Probabilità di mutazione di un individuo
-    
     (x_train, y_train), (x_eval, y_eval) = get_train_eval_split(train_data, percentage_train=0.8)
     
     
@@ -138,10 +121,8 @@ def run_experiment(
     generation = 0
     best_fitness = 0
     best_guy = None
-    # max_patience = 20
     patience = max_patience
     epoch_improoved = False
-    #pbar = tqdm(range(1,max_generations))
 
     for generation in tqdm(range(max_gen),desc="Generations",position=0):
         if patience == 0:
@@ -185,20 +166,6 @@ def run_experiment(
             patience -= 1
         
         generation += 1
-        
-        
-        #Il best individuo è quello con la migliore performance sul validation set
-        #print("best individuo (results on train set): ", best_guy.fitness)
-        #print("best individuo (results on val set): ", best_guy.calculate_fitness(fitness_function, x_eval, y_eval, data_encoding, pred_method, map_class_dict, update_fitness = False))
-        #print("best individuo (results on test set): ", best_guy.calculate_fitness(fitness_function, x_test, y_test, data_encoding, pred_method, map_class_dict, update_fitness = False))
-        #print("patient: ", patience)
-        
-
-    #print("\n\nEvolution part done:") #Il best individuo è quello con la migliore performance sul validation set
-    #print("Best individuo: ", best_guy.fitness)
-    #print("Best individuo eval set: ", best_guy.calculate_fitness(fitness_function, x_eval, y_eval, data_encoding, pred_method, map_class_dict, update_fitness = False))
-    #print("Best individuo test set: ", best_guy.calculate_fitness(fitness_function, x_test, y_test, data_encoding, pred_method, map_class_dict, update_fitness = False))
-    
     
     metrics_train = best_guy.calculate_fitness(fitness_function, x_train, y_train, data_encoding, pred_method, map_class_dict, update_fitness = False)
     metrics_eval = best_guy.calculate_fitness(fitness_function, x_eval, y_eval, data_encoding, pred_method, map_class_dict, update_fitness = False)
@@ -212,10 +179,9 @@ def run_experiment(
     cm_test = metrics_test["cm"]
     cm_eval = metrics_eval["cm"]
 
-
-    plot_class_confusion_matrix(split=f"{cm_name}_TRAIN", cm = cm_train, labels= metrics_train['unique_labels'], path_to_exp_results=path_to_results)
-    plot_class_confusion_matrix(split=f"{cm_name}_TEST", cm = cm_test, labels= metrics_test['unique_labels'], path_to_exp_results=path_to_results)
-    plot_class_confusion_matrix(split=f"{cm_name}_EVAL", cm = cm_eval, labels= metrics_eval['unique_labels'], path_to_exp_results=path_to_results)
+    # plot_class_confusion_matrix(split=f"{cm_name}_TRAIN", cm = cm_train, labels= metrics_train['unique_labels'], path_to_exp_results=path_to_results)
+    # plot_class_confusion_matrix(split=f"{cm_name}_TEST", cm = cm_test, labels= metrics_test['unique_labels'], path_to_exp_results=path_to_results)
+    # plot_class_confusion_matrix(split=f"{cm_name}_EVAL", cm = cm_eval, labels= metrics_eval['unique_labels'], path_to_exp_results=path_to_results)
 
     return fitness_train, fitness_eval, fitness_test, local_results
 
