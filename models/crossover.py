@@ -1,14 +1,11 @@
 import copy 
 
-SWAP4ALL_MFS = True # If True, swap all gaussian parameters of a feature, for all its membership functions.
-
-
 def crossover(parent1, parent2, rng_seed, crossover_rate=0.5):
     """
     Perform crossover between two individuals.
     This works by swapping some parameters of the two fuzzy neural networks.
-    The parameters we consider are parent.neuron_weights, parent.V and gaussian parameters (parent.mf_params).
-    crossover_rate: float, probability of swapping each parameter
+    The parameters we consider are parent.neuron_weights
+    crossover_rate: float, probability of swapping 
     """
     child = copy_individual(parent1)
     local_parent_2 = copy_individual(parent2) #itherwise it shares the same memory address from here on
@@ -23,21 +20,6 @@ def crossover(parent1, parent2, rng_seed, crossover_rate=0.5):
     if child.update_gene == "V":
         if rng_seed.random() < crossover_rate:
             child.V = local_parent_2.V
-    
-    # Swap gaussian parameters
-    """
-    if child.update_gene == "mf_params":
-        for feature_index in range(len(child.mf_params)):
-            if SWAP4ALL_MFS:
-                if rng_seed.random() < crossover_rate:
-                    child.mf_params[feature_index] = local_parent_2.mf_params[feature_index]
-            else:
-                for mf_index in range(child.num_mfs):
-                    if rng_seed.random() < crossover_rate:
-                        child.mf_params[feature_index]["centers"][mf_index] = local_parent_2.mf_params[feature_index]["centers"][mf_index]
-                        child.mf_params[feature_index]["sigmas"][mf_index] = local_parent_2.mf_params[feature_index]["sigmas"][mf_index]
-    """
-    
     return child
 
 
