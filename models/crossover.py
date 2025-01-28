@@ -11,7 +11,7 @@ def crossover(parent1, parent2, rng_seed, crossover_rate=0.5):
     crossover_rate: float, probability of swapping each parameter
     """
     child = copy_individual(parent1)
-    local_parent_2 = copy_individual(parent2) #Altrimenti condivide lo stesso indirizzo di memoria da qui in avanti
+    local_parent_2 = copy_individual(parent2) #itherwise it shares the same memory address from here on
 
     # Swap neuron weights
     if child.update_gene == "neuron_weights":
