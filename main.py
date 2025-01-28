@@ -179,9 +179,9 @@ def run_experiment(
     cm_test = metrics_test["cm"]
     cm_eval = metrics_eval["cm"]
 
-    # plot_class_confusion_matrix(split=f"{cm_name}_TRAIN", cm = cm_train, labels= metrics_train['unique_labels'], path_to_exp_results=path_to_results)
-    # plot_class_confusion_matrix(split=f"{cm_name}_TEST", cm = cm_test, labels= metrics_test['unique_labels'], path_to_exp_results=path_to_results)
-    # plot_class_confusion_matrix(split=f"{cm_name}_EVAL", cm = cm_eval, labels= metrics_eval['unique_labels'], path_to_exp_results=path_to_results)
+    plot_class_confusion_matrix(split=f"{cm_name}_TRAIN", cm = cm_train, labels= metrics_train['unique_labels'], path_to_exp_results=path_to_results)
+    plot_class_confusion_matrix(split=f"{cm_name}_TEST", cm = cm_test, labels= metrics_test['unique_labels'], path_to_exp_results=path_to_results)
+    plot_class_confusion_matrix(split=f"{cm_name}_EVAL", cm = cm_eval, labels= metrics_eval['unique_labels'], path_to_exp_results=path_to_results)
 
     return fitness_train, fitness_eval, fitness_test, local_results
 
