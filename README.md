@@ -1,5 +1,8 @@
-# Project-Bio-inspired-AI
-Repo of our group project for the course of Bio-inspired Artificial Intelligence on _Evolutionary-Neuro-Fuzzy System for Medical Diagnosis_
+# Evolutionary-Neuro-Fuzzy System for Medical Diagnosis
+This repo contains the code of our project for the course of Bio-inspired Artificial Intelligence (a.y. 2024/25).
+
+Authors: Nicola Muraro, Vincenzo Netti, Marina Segala and Giovanni Valer.
+
 ## Project structure
 ```
 Project-Bio-Inspired-AI
@@ -66,13 +69,12 @@ Project-Bio-Inspired-AI
 ### 1. Set up the Project Environment
 
 - First, ensure you have Conda installed. If not, follow the instructions [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
-- Then, create the project environment using the provided environment.yml file (if there are some problems try with env2.yml):
+- Then, create the project environment using the provided [environment.yml](environment.yml) file:
   ```bash
   conda env create -f environment.yml
   ```
 
 - And activate it:
-
   ```bash
   conda activate neurofuzzy
   ```
