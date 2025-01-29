@@ -1,6 +1,9 @@
 # Evolutionary-Neuro-Fuzzy System for Medical Diagnosis
 This repo contains the code of our project for the course of Bio-inspired Artificial Intelligence (a.y. 2024/25).
 
+We explore the development and application of EAs to evolve a Neuro-Fuzzy Inference System in different medical fields.
+We developed an EA on top of a pre-existing Neuro-Fuzzy System.
+
 Authors: Nicola Muraro, Vincenzo Netti, Marina Segala and Giovanni Valer.
 
 ## Project structure
